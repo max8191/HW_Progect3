@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Progect {
+public class Project {
 @Test
     public void first() throws InterruptedException {
         WebDriver wb = new ChromeDriver();
