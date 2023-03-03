@@ -3,18 +3,13 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import javax.lang.model.util.Elements;
-import java.awt.*;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class Project {
@@ -22,7 +17,7 @@ public class Project {
     public void first() throws InterruptedException {
         WebDriver wb = new ChromeDriver();
         wb.manage().window().maximize();
-        wb.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        wb.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 
         wb.get("https://www.cargurus.com/");
         wb.findElement(By.xpath("//label[@data-tab-name='UsedCar']")).click();
@@ -33,14 +28,8 @@ public class Project {
     for (WebElement one :new Select(wb.findElement(By.id("carPickerUsed_modelSelect"))).getOptions()){
         allModels.add(one.getText());
     }
-<<<<<<< HEAD
-    Assert.assertEquals(allModels, List.of("All Models", "Aventador", "Huracan", "Urus",
-            "400GT", "Centenario", "Countach", "Diablo", "Espada", "Gallardo", "Murcielago"));
-=======
     Assert.assertEquals(allModels, List.of("All Models", "Aventador",  "Gallardo","Huracan", "Urus",
             "400GT", "Centenario", "Countach", "Diablo", "Espada", "Murcielago"));
->>>>>>> 2d3484d (gallardo)
-
     new Select(wb.findElement(By.id("carPickerUsed_modelSelect"))).selectByVisibleText("Gallardo");
         wb.findElement(By.id("dealFinderZipUsedId_dealFinderForm")).clear();
         wb.findElement(By.id("dealFinderZipUsedId_dealFinderForm")).sendKeys("22031", Keys.ENTER);
@@ -53,21 +42,34 @@ public class Project {
     Thread.sleep(1000);
     List<WebElement> elements1 = wb.findElements(By.xpath("//span[@data-cg-ft='srp-listing-blade-price-and-payment'][not(contains(@href, 'FEATURED'))]"));
     elements1.remove(0);
-//    List<String> newPrice = new ArrayList<>();
     List<Double> newPrice2 = new ArrayList<>();
     for (WebElement one: elements1){
-//        newPrice.add(one.getText().substring(1,7).replace(',','.'));
         newPrice2.add(Double.valueOf(one.getText().substring(1,7).replace(',','.')));
     }
     Double[] o = newPrice2.toArray(new Double[0]);
     Arrays.sort(o);
     Assert.assertEquals(newPrice2.toString(),Arrays.toString(o));
+    System.out.println(newPrice2);
+    System.out.println(Arrays.toString(o));
 
     new Select(wb.findElement(By.id("sort-listing"))).selectByVisibleText("Highest mileage first");
     Thread.sleep(1000);
+    List<WebElement> miles = wb.findElements(By.xpath("//p[@class=\"JKzfU4 umcYBP\"]//span[not(@class)]"));
+    List<Double> second  = new ArrayList<>();
+    for(WebElement mile:miles){
+        String one = mile.getText();
+        second.add(Double.parseDouble(one.substring(0,one.length()-3).replace(",",".")));
+    }
+    List<Double> coppy = new ArrayList<>(second);
+    Collections.sort(coppy);
+    Collections.reverse(coppy);
+    System.out.println(second);
+    System.out.println(coppy);
+    Assert.assertEquals(second,coppy);
+    Thread.sleep(1000);
 //    new WebDriverWait(wb,Duration.ofSeconds(5)).until(ExpectedConditions.())
     wb.findElement(By.xpath("//*[@id=\"cargurus-listing-search\"]/div/div/div[2]/div[1]/div[2]/div[2]/fieldset[5]/ul/li[1]")).click();
-    Thread.sleep(2000);
+    Thread.sleep(1000);
     List<WebElement> option = wb.findElements(By.cssSelector("a[data-cg-ft=\"car-blade-link\"]"));
     for (WebElement one :option){
         Assert.assertTrue(one.getText().contains("Coupe AWD"));
