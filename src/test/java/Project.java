@@ -3,7 +3,10 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -30,8 +33,13 @@ public class Project {
     for (WebElement one :new Select(wb.findElement(By.id("carPickerUsed_modelSelect"))).getOptions()){
         allModels.add(one.getText());
     }
+<<<<<<< HEAD
     Assert.assertEquals(allModels, List.of("All Models", "Aventador", "Huracan", "Urus",
             "400GT", "Centenario", "Countach", "Diablo", "Espada", "Gallardo", "Murcielago"));
+=======
+    Assert.assertEquals(allModels, List.of("All Models", "Aventador",  "Gallardo","Huracan", "Urus",
+            "400GT", "Centenario", "Countach", "Diablo", "Espada", "Murcielago"));
+>>>>>>> 2d3484d (gallardo)
 
     new Select(wb.findElement(By.id("carPickerUsed_modelSelect"))).selectByVisibleText("Gallardo");
         wb.findElement(By.id("dealFinderZipUsedId_dealFinderForm")).clear();
@@ -57,6 +65,7 @@ public class Project {
 
     new Select(wb.findElement(By.id("sort-listing"))).selectByVisibleText("Highest mileage first");
     Thread.sleep(1000);
+//    new WebDriverWait(wb,Duration.ofSeconds(5)).until(ExpectedConditions.())
     wb.findElement(By.xpath("//*[@id=\"cargurus-listing-search\"]/div/div/div[2]/div[1]/div[2]/div[2]/fieldset[5]/ul/li[1]")).click();
     Thread.sleep(2000);
     List<WebElement> option = wb.findElements(By.cssSelector("a[data-cg-ft=\"car-blade-link\"]"));
